@@ -1,0 +1,25 @@
+{
+	"name": "TriggerLWcopyAndInverserNamPnam",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipelineCopyinverserNometPnom",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 2,
+				"startTime": "2019-09-23T17:11:00Z",
+				"endTime": "2019-09-24T19:11:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

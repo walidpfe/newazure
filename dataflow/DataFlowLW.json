@@ -1,0 +1,42 @@
+{
+	"name": "DataFlowLW",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTableLW",
+						"type": "DatasetReference"
+					},
+					"name": "sourceLW"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sourceLWdes"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTableCount",
+						"type": "DatasetReference"
+					},
+					"name": "LWsinkCount"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "AggregateCount"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tidemp as integer,\n\t\tNomEmp as string,\n\t\tPnomEmp as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tbatchSize: 0,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sourceLW\nsource(output(\n\t\tidemp as integer,\n\t\tNomEmp as string,\n\t\tPnomEmp as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sourceLWdes\nsourceLW, sourceLWdes join(sourceLW@idemp == sourceLWdes@idemp,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join1\nJoin1 aggregate(groupBy(sourceLW@idemp),\n\tNB = count(sourceLW@idemp)) ~> AggregateCount\nAggregateCount sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false) ~> LWsinkCount"
+		}
+	}
+}
