@@ -1,0 +1,26 @@
+{
+	"name": "pipeline3",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "date",
+					"value": {
+						"value": "@pipeline().DataFactory",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"date": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
