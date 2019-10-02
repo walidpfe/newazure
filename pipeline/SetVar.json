@@ -10,7 +10,7 @@
 				"typeProperties": {
 					"variableName": "date",
 					"value": {
-						"value": "@pipeline().DataFactory",
+						"value": "@formatDateTime(utcnow(), 'yyyy')",
 						"type": "Expression"
 					}
 				}
@@ -18,7 +18,8 @@
 		],
 		"variables": {
 			"date": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "yyyy"
 			}
 		},
 		"annotations": []
